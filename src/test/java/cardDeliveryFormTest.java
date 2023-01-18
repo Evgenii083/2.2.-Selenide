@@ -17,6 +17,7 @@ public class cardDeliveryFormTest {
     @Test
     public void happyPassCase() {
         Configuration.holdBrowserOpen = true;
+        Configuration.headless = true;
         LocalDate currentDate = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         open("http://0.0.0.0:9999");
