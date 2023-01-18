@@ -1,7 +1,9 @@
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Configuration;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -11,9 +13,11 @@ import static com.codeborne.selenide.Condition.appear;
 import static com.codeborne.selenide.Selenide.*;
 
 public class cardDeliveryFormTest {
+
     @Test
     public void happyPassCase() {
         Configuration.holdBrowserOpen = true;
+        Configuration.headless = true;
         LocalDate currentDate = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         open("http://0.0.0.0:9999");
