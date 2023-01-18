@@ -16,14 +16,6 @@ import static com.codeborne.selenide.Selenide.*;
 
 public class cardDeliveryFormTest {
 
-    @BeforeEach
-    void setUp() {
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--disable-dev-shm-usage");
-        options.addArguments("--no-sandbox");
-        options.addArguments("--headless");
-    }
-
     @Test
     public void happyPassCase() {
         Configuration.holdBrowserOpen = true;
