@@ -12,7 +12,7 @@ import static com.codeborne.selenide.Selenide.*;
 
 public class СardDeliveryFormTest {
     public String generateDate(long addDays, String pattern) {
-        return LocalDate.now().plusDays(4).format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+        return LocalDate.now().plusDays(addDays).format(DateTimeFormatter.ofPattern(pattern));
     }
 
     @Test
@@ -24,12 +24,12 @@ public class СardDeliveryFormTest {
         $x("//* [contains(@placeholder , 'Дата встречи')]").click();
         $x("//* [contains(@placeholder , 'Дата встречи')]").sendKeys(Keys.COMMAND + "A");
         $x("//* [contains(@placeholder , 'Дата встречи')]").sendKeys(Keys.DELETE);
-        $x("//* [contains(@placeholder , 'Дата встречи')]").setValue(generateDate(4, "dd-MM-yyyy"));
+        $x("//* [contains(@placeholder , 'Дата встречи')]").setValue(generateDate(4, "dd.MM.yyyy"));
         $("[data-test-id='name'] input").setValue("Иванов Илья");
         $("[data-test-id='phone'] input").setValue("+79436578935");
         $x("//*[contains(text(), 'Забронировать')]").click();
         $x("//*[contains(@class,'notification__content')]").should(appear, Duration.ofMillis(15000));
-        $(".notification__content").shouldHave(Condition.text("Встреча успешно забронирована на " + "23.01.2023"), Duration.ofSeconds(15)).shouldBe(Condition.visible);
+        $(".notification__content").shouldHave(Condition.text("Встреча успешно забронирована на " + generateDate(4,"dd.MM.yyyy") ), Duration.ofSeconds(15)).shouldBe(Condition.visible);
     }
 
     @Test
@@ -45,7 +45,7 @@ public class СardDeliveryFormTest {
         $x("//label[contains(@data-test-id, 'agreement')]").click();
         $x("//*[contains(text(), 'Забронировать')]").click();
         $x("//*[contains(@class,'notification__content')]").should(appear, Duration.ofMillis(15000));
-        $(".notification__content").shouldHave(Condition.text("Встреча успешно забронирована на " + "26.01.2023"), Duration.ofSeconds(15)).shouldBe(Condition.visible);
+        $x("//*[contains(@class,'notification__content')]").shouldHave(Condition.text("Встреча успешно забронирована на " + generateDate(6,"dd.MM.yyyy")), Duration.ofSeconds(15)).shouldBe(Condition.visible);
 
     }
 }
