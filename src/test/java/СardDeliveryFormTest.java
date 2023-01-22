@@ -45,7 +45,7 @@ public class СardDeliveryFormTest {
         $x("//label[contains(@data-test-id, 'agreement')]").click();
         $x("//*[contains(text(), 'Забронировать')]").click();
         $x("//*[contains(@class,'notification__content')]").should(appear, Duration.ofMillis(15000));
-        $x("//*[contains(@class,'notification__content')]").shouldHave(Condition.text("Встреча успешно забронирована на " + generateDate(6,"dd.MM.yyyy")), Duration.ofSeconds(15)).shouldBe(Condition.visible);
+        $x("//*[contains(@class,'notification__content')]").shouldHave(Condition.text("Встреча успешно забронирована на " + generateDate(4,"dd.MM.yyyy")), Duration.ofSeconds(15)).shouldBe(Condition.visible);
 
     }
 }
