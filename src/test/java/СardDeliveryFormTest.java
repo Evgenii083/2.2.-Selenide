@@ -1,5 +1,6 @@
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Configuration;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Keys;
 
@@ -15,10 +16,14 @@ public class СardDeliveryFormTest {
         return LocalDate.now().plusDays(addDays).format(DateTimeFormatter.ofPattern(pattern));
     }
 
-    @Test
-    public void happyPassCase() {
+    @BeforeEach
+    public void setUp() {
         Configuration.holdBrowserOpen = true;
         open("http://localhost:9999/");
+    }
+
+    @Test
+    public void happyPassCase() {
         $x("//input[contains (@placeholder, 'Город' )]").setValue("Омск");
         $x("//label[contains(@data-test-id, 'agreement')]").click();
         $x("//* [contains(@placeholder , 'Дата встречи')]").click();
@@ -29,23 +34,22 @@ public class СardDeliveryFormTest {
         $("[data-test-id='phone'] input").setValue("+79436578935");
         $x("//*[contains(text(), 'Забронировать')]").click();
         $x("//*[contains(@class,'notification__content')]").should(appear, Duration.ofMillis(15000));
-        $(".notification__content").shouldHave(Condition.text("Встреча успешно забронирована на " + generateDate(4,"dd.MM.yyyy") ), Duration.ofSeconds(15)).shouldBe(Condition.visible);
+        $(".notification__content").shouldHave(Condition.text("Встреча успешно забронирована на " + generateDate(4, "dd.MM.yyyy")), Duration.ofSeconds(15)).shouldBe(Condition.visible);
     }
 
     @Test
     public void dropDownListCase() {
-        Configuration.holdBrowserOpen = true;
-        open("http://localhost:9999/");
         $x("//input[contains (@placeholder, 'Город' )]").setValue("сан");
         $x("//* [contains(text() , 'Санкт-Петербург')]").click();
         $x("//span[contains(@class , 'input__icon')]").click();
-        $x("//*[contains(@data-day, '1674687600000')]").click();
+        $x("//div[(@data-step='1')]").click();
+        $x("//*[contains(@data-day, '1676415600000')]").click();
         $("[data-test-id='name'] input").setValue("Иванов Илья");
         $("[data-test-id='phone'] input").setValue("+79436578935");
         $x("//label[contains(@data-test-id, 'agreement')]").click();
         $x("//*[contains(text(), 'Забронировать')]").click();
         $x("//*[contains(@class,'notification__content')]").should(appear, Duration.ofMillis(15000));
-        $x("//*[contains(@class,'notification__content')]").shouldHave(Condition.text("Встреча успешно забронирована на " + generateDate(4,"dd.MM.yyyy")), Duration.ofSeconds(15)).shouldBe(Condition.visible);
+        $x("//*[contains(@class,'notification__content')]").shouldHave(Condition.text("Встреча успешно забронирована на " + "15.02.2023"), Duration.ofSeconds(15)).shouldBe(Condition.visible);
 
     }
 }
