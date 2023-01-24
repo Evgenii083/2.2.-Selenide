@@ -11,7 +11,6 @@ import java.time.format.DateTimeFormatter;
 import static com.codeborne.selenide.Condition.appear;
 import static com.codeborne.selenide.Selenide.*;
 
-
 public class СardDeliveryFormTest {
     public String generateDate(long addDays, String pattern) {
         return LocalDate.now().plusDays(addDays).format(DateTimeFormatter.ofPattern(pattern));
@@ -28,13 +27,17 @@ public class СardDeliveryFormTest {
         $x("//input[contains (@placeholder, 'Город' )]").setValue("Омск");
         $x("//label[contains(@data-test-id, 'agreement')]").click();
         $x("//* [contains(@placeholder , 'Дата встречи')]").click();
-        $x("//* [contains(@placeholder , 'Дата встречи')]").sendKeys(Keys.chord(Keys.SHIFT, Keys.HOME), Keys.DELETE);
-        $x("//* [contains(@placeholder , 'Дата встречи')]").setValue(generateDate(4, "dd.MM.yyyy"));
+        $x("//* [contains(@placeholder , 'Дата встречи')]")
+                .sendKeys(Keys.chord(Keys.SHIFT, Keys.HOME), Keys.DELETE);
+        $x("//* [contains(@placeholder , 'Дата встречи')]")
+                .setValue(generateDate(4, "dd.MM.yyyy"));
         $("[data-test-id='name'] input").setValue("Иванов Илья");
         $("[data-test-id='phone'] input").setValue("+79436578935");
         $x("//*[contains(text(), 'Забронировать')]").click();
         $x("//*[contains(@class,'notification__content')]").should(appear, Duration.ofMillis(15000));
-        $(".notification__content").shouldHave(Condition.text("Встреча успешно забронирована на " + generateDate(4, "dd.MM.yyyy")), Duration.ofSeconds(15)).shouldBe(Condition.visible);
+        $(".notification__content")
+                .shouldHave(Condition.text("Встреча успешно забронирована на " + generateDate(4, "dd.MM.yyyy")),
+                        Duration.ofSeconds(15)).shouldBe(Condition.visible);
     }
 
     @Test
